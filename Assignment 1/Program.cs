@@ -7,69 +7,66 @@ namespace Assignment_1
     {
         static void Main(string[] args)
         {
-            int n = 5;
+            int n = 6;
             PrintTriangle(n);
 
-            int n2 = 5;
+            int n2 = 6;
             PrintSeriesSum(n2);
 
-            int[] A = new int[] { 3, 2, 2, 6 }; ;
+            int[] A = new int[] { 4, 5, 2, 3 }; ;
             bool check = MonotonicCheck(A);
             Console.WriteLine(check);
 
-            int[] nums = new int[] { 3, 1, 4, 1, 5 };
-            int k = 2;
+            int[] nums = new int[] { 1, 2, 3, 4, 5 };
+            int k = 1;
             int pairs = DiffPairs(nums, k);
             Console.WriteLine(pairs);
 
-            string keyboard = "abcdefghijklmnopqrstuvwxyz";
-            string word = "dis";
+            string keyboard = "hijklmnopqrstuvwxyzabcdefg";
+            string word = "gobulls";
             int time = BullsKeyboard(keyboard, word);
             Console.WriteLine(time);
 
-            string str1 = "goulls";
-            string str2 = "gobulls";
+            string str1 = "robky";
+            string str2 = "rocky";
             int minEdits = StringEdit(str1, str2);
             Console.WriteLine(minEdits);
 
         }
 
-        public static void PrintTriangle(int x)
+        public static void PrintTriangle(int n)
         {
             try
             {
-                int i, j, n, count = 1;
-                Console.Write("Enter number of rows:(n)");
-                n = int.Parse(Console.ReadLine());
-                count = n - 1;
+                int i, j, count = 1;
+                count = n - 1;      // set the count number to decide the space before "*"
                 for (j = 1; j <= n; j++)
                 {
-                    for (i = 1; i <= count; i++)
+                    for (i = 1; i <= count; i++)   // Use a loop to print the spaces
                         Console.Write(" ");
                     count--;
-                    for (i = 1; i <= 2 * j - 1; i++)
+                    for (i = 1; i <= 2 * j - 1; i++)  // use a for loop to print the "*"
                         Console.Write("*");
                     Console.WriteLine();
                 }
-                }
+            }
             catch
             {
                 Console.WriteLine("Exception occured while computing PrintTriangle()");
             }
         }
 
-        public static void PrintSeriesSum(int n)
+        public static void PrintSeriesSum(int n2)
         {
             try
             {
-                int n2, i, s = 0;
-                Console.Write("Enter a integer Number ");
-                n2 = Convert.ToInt32(Console.ReadLine());
+                int i, s = 0;
+
                 Console.Write("The odds number are:");
                 for (i = 1; i <= n2; i++)
                 {
-                    Console.Write("{0} ", 2 * i - 1);
-                    s = s + 2 * i - 1;
+                    Console.Write("{0} ", 2 * i - 1); // use the loop to display the odds number
+                    s = s + 2 * i - 1;                // sum of the odd number 
                 }
 
                 Console.Write("\nThe sum  is : {1} \n", n2, s);
@@ -80,24 +77,24 @@ namespace Assignment_1
             }
         }
 
-        public static bool MonotonicCheck(int[] n)
+        public static bool MonotonicCheck(int[] A)
         {
             try
             {
-                bool isInc = true;
+                bool isInc = true;  // set the bool logic
                 bool isDec = true;
-                for (int i = 0; i < n.Length - 1; i++)
+                for (int i = 0; i < A.Length - 1; i++)
                 {
-                    if (n[i] > n[i + 1])
+                    if (A[i] > A[i + 1])    // use if logic to confirm the order of the element in the array
                     {
                         isInc = false;
                     }
-                    if (n[i] < n[i + 1])
+                    if (A[i] < A[i + 1])    // use if logic to confirm the order of the element in the array
                     {
                         isDec = false;
                     }
                 }
-                return isDec || isInc;
+                return isDec || isInc;   // return the bool logic base on the if logic above
             }
             catch
             {
@@ -111,25 +108,29 @@ namespace Assignment_1
         {
             try
             {
-                if (k < 0) return 0;
+                Array.Sort(J);
+                int count = 0; //
 
-                var orderList = new Dictionary<int, int>(J.Length);
-                foreach (var i in J)
+                for (int i = 0; i < J.Length - 1; i++)
                 {
-                    if (!orderList.ContainsKey(i))
-                        orderList[i] = 0;
-                    orderList[i]++;
+                    if (i > 0 && J[i] == J[i - 1])
+                    {   // remove the duplicate value in array J
+                        continue;
+                    }
+                    for (int j = i + 1; j < J.Length; j++)
+                    {
+                        if (j > i + 1 && J[j] == J[j - 1])
+                        { //remove the duplicated value in array J
+                            continue;
+                        }
+                        if (J[j] - J[i] == k)  // decide if the diff(differences between j & i in" Array") ==k.
+                        {
+                            count++;
+                        }
+                    }
                 }
+                return count;
 
-                if (k == 0)
-                    return orderList.Count(i => i.Value > 1);
-
-                var forReturn = 0;
-                foreach (var orderItem in orderList)
-                    if (orderList.ContainsKey(orderItem.Key + k))
-                        forReturn++;
-
-                return forReturn;
             }
             catch
             {
@@ -146,11 +147,11 @@ namespace Assignment_1
                 {
                     int count = 0;
                     char[] chars = word.ToCharArray();
-                    int index = 0;
-                    foreach (char c in chars)
+                    int index = 0;   // set start index
+                    foreach (char i in chars)
                     {
-                        count += Math.Abs(keyboard.IndexOf(c) - index);
-                        index = keyboard.IndexOf(c);
+                        count += Math.Abs(keyboard.IndexOf(i) - index);  // decide the distance of element "i" between "i" 's index and the start index and get the sum of the index for each "i" in "word"
+                        index = keyboard.IndexOf(i);
                     }
                     return count;
                 }
@@ -167,44 +168,18 @@ namespace Assignment_1
         {
             try
             {
-                int n = str1.Length;
-                int m = str2.Length;
-                //其中一个是空串
-                if (n * m == 0)
+                int[] count = new int[26];
+                for (int i = 0; i < str1.Length; ++i)
                 {
-                    return n + m;
+                    count[str1[i] - 'a']++;  // find the times that each element in str1 appears
+                    count[str2[i] - 'a']--;  // find the times that each element in str2 appears
                 }
-
-                int[,] dp = new int[n + 1, m + 1];
-                //A串为空，初始化边界
-                for (int i = 0; i <= m; i++)
+                int result = 0;
+                for (int i = 0; i < 26; ++i)
                 {
-                    dp[0, i] = i;
+                    result += count[i] > 0 ? count[i] : 0;    // sum the appearance time for each element in str1 and str2
                 }
-                //B串为空，初始化边界
-                for (int i = 0; i <= n; i++)
-                {
-                    dp[i, 0] = i;
-                }
-
-                for (int i = 1; i <= n; i++)
-                {
-                    for (int j = 1; j <= m; j++)
-                    {
-                        //A串插入
-                        int left = dp[i, j - 1] + 1;
-                        //B串插入
-                        int right = dp[i - 1, j] + 1;
-                        //A串替换
-                        int edit = dp[i - 1, j - 1];
-                        if (str1[i - 1] != str2[j - 1])
-                        {
-                            edit++;
-                        }
-                        dp[i, j] = Math.Min(left, Math.Min(right, edit));
-                    }
-                }
-                return dp[n, m];
+                return result;
             }
             catch
             {
